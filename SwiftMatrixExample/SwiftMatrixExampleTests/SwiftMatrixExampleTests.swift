@@ -44,6 +44,20 @@ class SwiftMatrixExampleTests: XCTestCase {
         //let matrix2: Matrix = [[1,2,3], [5,6,7]]
     }
     
+    func testAddition() {
+        let a = Matrix([1,2,3])
+        let b = Matrix([4,5,6])
+        let c = a + b
+        
+        XCTAssertEqual(c, Matrix([5,7,9]), "c should equal [5,7,9]")
+    }
+
+    func testShape() {
+        let a = Matrix([1,2,3])
+        XCTAssert(a.shape.r == 1, "a should only have the one row")
+        XCTAssert(a.shape.c == 3, "a should only have three columns")
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measureBlock() {

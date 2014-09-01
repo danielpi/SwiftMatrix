@@ -9,7 +9,13 @@
 import Foundation
 
 public struct Matrix: Equatable {
-    let rows: Int, columns: Int
+    let rows: Int
+    let columns: Int
+    public var shape: (r: Int, c: Int) {
+        get {
+            return (rows, columns)
+        }
+    }
     var grid: [Double]
     public init(rows: Int, columns: Int) {
         self.rows = rows
@@ -87,7 +93,12 @@ public func == (left: Matrix, right: Matrix) -> Bool {
     }
 }
 
-//func + (left: Matrix, right: Matrix) -> Matrix {
-    
-    //return
-//}
+public func + (left: Matrix, right: Matrix) -> Matrix {
+    // Should check that left and right have the same shape
+    //assert(left.shape == right.shape, "Matrices need to be the same shape to be added together")
+    var temp = Matrix(rows: left.rows, columns: left.columns)
+    for (i, value) in enumerate(left.grid) {
+        temp[i] = value + right[i]
+    }
+    return temp
+}
