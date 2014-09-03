@@ -102,3 +102,16 @@ public func + (left: Matrix, right: Matrix) -> Matrix {
     }
     return temp
 }
+
+public func - (left: Matrix, right: Matrix) -> Matrix {
+    // Should check that left and right have the same shape
+    //assert(left.shape == right.shape, "Matrices need to be the same shape to be added together")
+    var temp = Matrix(rows: left.rows, columns: left.columns)
+    for (i, value) in enumerate(left.grid) {
+        temp[i] = value - right[i]
+    }
+    return temp
+}
+
+
+

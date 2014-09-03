@@ -51,6 +51,27 @@ class SwiftMatrixExampleTests: XCTestCase {
         
         XCTAssertEqual(c, Matrix([5,7,9]), "c should equal [5,7,9]")
     }
+    func testAddition2() {
+        let a = Matrix([[1,2,3],[4,5,6]])
+        let b = Matrix([[4,5,6],[7,8,9]])
+        let c = a + b
+        
+        XCTAssertEqual(c, Matrix([[5,7,9],[11,13,15]]), "c should equal [5,7,9]")
+    }
+    func testSubtraction() {
+        let a = Matrix([1,2,3])
+        let b = Matrix([4,5,6])
+        let c = a - b
+        
+        XCTAssertEqual(c, Matrix([-3,-3,-3]), "c should equal [-3,-3,-3]")
+    }
+    func testSubtraction2() {
+        let a = Matrix([[1,2,3],[4,5,6]])
+        let b = Matrix([[4,5,6],[7,8,9]])
+        let c = a - b
+        
+        XCTAssertEqual(c, Matrix([[-3,-3,-3],[-3,-3,-3]]), "c should equal [[-3,-3,-3],[-3,-3,-3]]")
+    }
 
     func testShape() {
         let a = Matrix([1,2,3])
