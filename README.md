@@ -27,3 +27,4 @@ Issues, Improvements, Random Thoughts
 - Would like to be able to have a matrix of Ints or Floats (or any other data type for that matter). Need to be able to specify that only numeric values (though also imaginary numbers) are allowed. Also what happens when a calculation is performed on mixed types?
 - How to slice an entire row or column? Matlab uses a(:,2) to get the second column of data. 
 - I've had a pretty good go at implementing a matrix class with generics. It hasn't worked out very well though. I think it is more important for the library to specialise on each of the most common data types. The underlying Accelerate library does this so I don't think I can take advantage of it without also being specific. It would be good if this library could use operator overloading though so that you can not have to worry about your data types (as much as possible).
+- How to handle equality of floating point numbers in Swift.

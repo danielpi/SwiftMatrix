@@ -7,47 +7,43 @@
 //
 
 import Foundation
+import Accelerate
 
-// Approach one to allowing for a generic matrix implementation involves creating a protocol that lists all the operations that we want our element type to be able to handle.
+// Lets just worry about 2 dimensional float matrices
+
 public protocol SummableMultipliable: Equatable {
     func +(lhs: Self, rhs: Self) -> Self
     func *(lhs: Self, rhs: Self) -> Self
     func -(lhs: Self, rhs: Self) -> Self
+    func /(lhs: Self, rhs: Self) -> Self
 }
 
 extension Int: SummableMultipliable {}
+extension Float: SummableMultipliable {}
 extension Double: SummableMultipliable {}
 
-
-// Approach two involves manually grouping the types that we know we want to be able to use into a numeric type
-public protocol Numeric {}
-extension Int: Numeric {}
-extension Double: Numeric {}
-extension Float: Numeric {}
-
-
-public struct Matrix<T: SummableMultipliable> {
-    var grid: [T]
+public struct Matrix: Equatable {
+    var grid: [Double]
     let rows: Int
-    let columns: Int
-    public var shape: (r: Int, c: Int) {
+    let cols: Int
+    public var size: (rows: Int, cols: Int) {
         get {
-            return (rows, columns)
+            return (rows, cols)
         }
     }
     
-    public init(rows: Int, columns: Int, initialValue: T) {
+    public init(rows: Int, cols: Int) {
         self.rows = rows
-        self.columns = columns
-        grid = Array(count: rows * columns, repeatedValue: initialValue)
+        self.cols = cols
+        grid = Array(count: rows * cols, repeatedValue: 0.0)
     }
-    public init(_ data: [T]) {
+    public init(_ data: [Double]) {
         grid = data
         rows = 1
-        columns = data.count
+        cols = data.count
     }
-    public init(_ data: [[T]]) {
-        var matrix = Matrix(rows: data.count, columns: data[0].count, initialValue: data[0][0])
+    public init(_ data: [[Double]]) {
+        var matrix = Matrix(rows: data.count, cols: data[0].count)
         let no_columns = data[0].count
         for (i, row) in enumerate(data) {
             assert(no_columns == row.count, "Each row must be of the same length")
@@ -59,9 +55,9 @@ public struct Matrix<T: SummableMultipliable> {
     }
     //public init(_ data: [[[Double]]]) { // Three dimensional array
     func indexIsValidForRow(row: Int, column: Int) -> Bool {
-        return row >= 0 && row < rows && column >= 0 && column < columns
+        return row >= 0 && row < rows && column >= 0 && column < cols
     }
-    public subscript(row: Int) -> T {
+    public subscript(row: Int) -> Double {
         get {
             // assert
             return grid[row]
@@ -70,14 +66,14 @@ public struct Matrix<T: SummableMultipliable> {
             grid[row] = newValue
         }
     }
-    public subscript(row: Int, column: Int) -> T {
+    public subscript(row: Int, column: Int) -> Double {
         get {
             assert(indexIsValidForRow(row, column: column), "Index out of range")
-            return grid[(row * columns) + column]
+            return grid[(row * cols) + column]
         }
         set {
             assert(indexIsValidForRow(row, column: column), "Index out of range")
-            grid[(row * columns) + column] = newValue
+            grid[(row * cols) + column] = newValue
         }
     }
     
@@ -87,7 +83,7 @@ public struct Matrix<T: SummableMultipliable> {
 extension Matrix: ArrayLiteralConvertible {
     public static func convertFromArrayLiteral(elements: Double...) -> Matrix {
         let data = elements as [Double]
-        var matrix = Matrix<Double>(data)
+        var matrix = Matrix(data)
         return matrix
     }
 /*    public static func convertFromArrayLiteral(elements: [Double]...) -> Matrix {
@@ -98,36 +94,109 @@ extension Matrix: ArrayLiteralConvertible {
 
 }
 
+/*public static boolean nearlyEqual(float a, float b, float epsilon) {
+    final float absA = Math.abs(a);
+    final float absB = Math.abs(b);
+    final float diff = Math.abs(a - b);
+    
+    if (a == b) { // shortcut, handles infinities
+        return true;
+    } else if (a == 0 || b == 0 || diff < Float.MIN_NORMAL) {
+        // a or b is zero or both are extremely close to it
+        // relative error is less meaningful here
+        return diff < (epsilon * Float.MIN_NORMAL);
+    } else { // use relative error
+        return diff / (absA + absB) < epsilon;
+    }
+}
+*/
+
+
+
+public func nearlyEqual(a: Double, b: Double, epsilon: Double) -> Bool {
+    let absA = abs(a)
+    let absB = abs(b)
+    let diff = abs(a - b)
+    
+    if (a == b) {
+        return true
+    //} else if (a == 0 || b == 0 || diff < Double.min) {
+        //return diff < (epsilon * Double.)
+    } else {
+        return (diff / (absA + absB)) < epsilon
+    }
+}
+
+public func nearlyEqual(a: Double, b: Double) -> Bool {
+    return nearlyEqual(a, b, DBL_EPSILON)
+}
+
+public func nearlyEqual(a: Float, b: Float, epsilon: Float) -> Bool {
+    let absA = abs(a)
+    let absB = abs(b)
+    let diff = abs(a - b)
+    
+    if (a == b) {
+        return true
+        //} else if (a == 0 || b == 0 || diff < Double.min) {
+        //return diff < (epsilon * Double.)
+    } else {
+        return (diff / (absA + absB)) < epsilon
+    }
+}
+
+public func nearlyEqual(a: Float, b: Float) -> Bool {
+    return nearlyEqual(a, b, FLT_EPSILON)
+}
+
 
 // MARK: Operators
-
-public func == (left: Matrix<Int>, right: Matrix<Int>) -> Bool {
-    if (left.grid == right.grid) {
-        return true
-    } else {
-        return false
-    }
+public func == (left: Matrix, right: Matrix) -> Bool {
+    return (left.grid == right.grid)
 }
 
 public func + (left: Matrix, right: Matrix) -> Matrix {
-    // Should check that left and right have the same shape
-    //assert(left.shape == right.shape, "Matrices need to be the same shape to be added together")
-    var temp = Matrix(rows: left.rows, columns: left.columns)
-    for (i, value) in enumerate(left.grid) {
-        temp[i] = value + right[i]
-    }
-    return temp
+    assert( (left.rows == right.rows) && (left.cols == right.cols) )
+    var result = Matrix(rows: left.rows, cols: left.cols)
+    vDSP_vaddD( left.grid, 1, right.grid, 1, &result.grid, 1, vDSP_Length(left.grid.count) )
+    return result
 }
 
 public func - (left: Matrix, right: Matrix) -> Matrix {
-    // Should check that left and right have the same shape
-    //assert(left.shape == right.shape, "Matrices need to be the same shape to be added together")
-    var temp = Matrix(rows: left.rows, columns: left.columns)
-    for (i, value) in enumerate(left.grid) {
-        temp[i] = value - right[i]
-    }
-    return temp
+    assert( (left.rows == right.rows) && (left.cols == right.cols) )
+    var result = Matrix(rows: left.rows, cols: left.cols)
+    vDSP_vsubD( right.grid, 1, left.grid, 1, &result.grid, 1, vDSP_Length(left.grid.count) )
+    return result
 }
+
+public func * (left: Matrix, right:Double) -> Matrix {
+    var result = Matrix(rows: left.rows, cols: left.cols)
+    //vDSP_vsmulD( left.grid, 1, &right, &result.grid, 1, vDSP_Length(left.grid.count)) // Can't seem to get this to work
+    for (i, value) in enumerate(left.grid) {
+        result[i] = value * right
+    }
+    return result
+}
+
+public func * (left: Double, right:Matrix) -> Matrix {
+    var result = Matrix(rows: right.rows, cols: right.cols)
+    //vDSP_vsmulD( left.grid, 1, &right, &result.grid, 1, vDSP_Length(left.grid.count)) // Can't seem to get this to work
+    for (i, value) in enumerate(right.grid) {
+        result[i] = value * left
+    }
+    return result
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

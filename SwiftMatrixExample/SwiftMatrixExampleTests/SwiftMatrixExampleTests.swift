@@ -25,11 +25,11 @@ class SwiftMatrixExampleTests: XCTestCase {
     
     func testEmptyMatrix() {
         // This is an example of a functional test case.
-        let matrix = Matrix(rows: 2, columns: 2)
-        XCTAssertEqualWithAccuracy(matrix[0,0], 0.0, 0.001, "All Values should be 0.0")
-        XCTAssertEqualWithAccuracy(matrix[1,0], 0.0, 0.001, "All Values should be 0.0")
-        XCTAssertEqualWithAccuracy(matrix[0,1], 0.0, 0.001, "All Values should be 0.0")
-        XCTAssertEqualWithAccuracy(matrix[1,1], 0.0, 0.001, "All Values should be 0.0")
+        let matrix = Matrix(rows: 2, cols: 2)
+        XCTAssertEqualWithAccuracy(matrix[0,0], 0.0, DBL_EPSILON, "All Values should be 0.0")
+        XCTAssertEqualWithAccuracy(matrix[1,0], 0.0, DBL_EPSILON, "All Values should be 0.0")
+        XCTAssertEqualWithAccuracy(matrix[0,1], 0.0, DBL_EPSILON, "All Values should be 0.0")
+        XCTAssertEqualWithAccuracy(matrix[1,1], 0.0, DBL_EPSILON, "All Values should be 0.0")
     }
     
     func testMatrixCreation1() {
@@ -72,11 +72,25 @@ class SwiftMatrixExampleTests: XCTestCase {
         
         XCTAssertEqual(c, Matrix([[-3,-3,-3],[-3,-3,-3]]), "c should equal [[-3,-3,-3],[-3,-3,-3]]")
     }
-
-    func testShape() {
+    
+    func testScalarMultiplication() {
         let a = Matrix([1,2,3])
-        XCTAssert(a.shape.r == 1, "a should only have the one row")
-        XCTAssert(a.shape.c == 3, "a should only have three columns")
+        let b = Matrix([[4,5,6],[7,8,9]])
+        
+        let c = 3 * a
+        let d = -1 * b
+        let e = b * 0.1
+        
+        let f = Matrix([[0.4, 0.5, 0.6],[0.7, 0.8, 0.9]])
+        XCTAssertEqual(c, Matrix([3,6,9]), "c should equal ")
+        XCTAssertEqual(d, Matrix([[-4,-5,-6],[-7,-8,-9]]), "c should equal ")
+        XCTAssertEqual(e, Matrix([[0.4, 0.5, 0.6],[0.7, 0.8, 0.9]]), "c should equal")
+    }
+
+    func testSize() {
+        let a = Matrix([1,2,3])
+        XCTAssert(a.size.rows == 1, "a should only have the one row")
+        XCTAssert(a.size.cols == 3, "a should only have three columns")
     }
     
     func testPerformanceExample() {
