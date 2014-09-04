@@ -26,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E687F8EB19B7D95D0075E3DF /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		E6C428EE19B1F57A00CD5463 /* SwiftMatrixExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftMatrixExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C428F219B1F57A00CD5463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6C428F319B1F57A00CD5463 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				E6C4291019B1F5AA00CD5463 /* Matrix.swift */,
+				E687F8EB19B7D95D0075E3DF /* MyPlayground.playground */,
 				E6C428F519B1F57A00CD5463 /* AppDelegate.swift */,
 				E6C428F719B1F57A00CD5463 /* Images.xcassets */,
 				E6C428F919B1F57A00CD5463 /* MainMenu.xib */,
@@ -401,6 +403,7 @@
 				E6C4290C19B1F57B00CD5463 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E6C4290D19B1F57B00CD5463 /* Build configuration list for PBXNativeTarget "SwiftMatrixExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -409,6 +412,7 @@
 				E6C4290F19B1F57B00CD5463 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

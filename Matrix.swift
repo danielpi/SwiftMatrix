@@ -8,7 +8,26 @@
 
 import Foundation
 
-public struct Matrix: Equatable {
+// Approach one to allowing for a generic matrix implementation involves creating a protocol that lists all the operations that we want our element type to be able to handle.
+public protocol SummableMultipliable: Equatable {
+    func +(lhs: Self, rhs: Self) -> Self
+    func *(lhs: Self, rhs: Self) -> Self
+    func -(lhs: Self, rhs: Self) -> Self
+}
+
+extension Int: SummableMultipliable {}
+extension Double: SummableMultipliable {}
+
+
+// Approach two involves manually grouping the types that we know we want to be able to use into a numeric type
+public protocol Numeric {}
+extension Int: Numeric {}
+extension Double: Numeric {}
+extension Float: Numeric {}
+
+
+public struct Matrix<T: SummableMultipliable> {
+    var grid: [T]
     let rows: Int
     let columns: Int
     public var shape: (r: Int, c: Int) {
@@ -16,21 +35,19 @@ public struct Matrix: Equatable {
             return (rows, columns)
         }
     }
-    var grid: [Double]
-    public init(rows: Int, columns: Int) {
+    
+    public init(rows: Int, columns: Int, initialValue: T) {
         self.rows = rows
         self.columns = columns
-        grid = Array(count: rows * columns, repeatedValue: 0.0)
+        grid = Array(count: rows * columns, repeatedValue: initialValue)
     }
-    public init(_ data: [Double]) {
-        var matrix = Matrix(rows: 1, columns: data.count)
-        for (i, value) in enumerate(data) {
-            matrix[i] = value
-        }
-        self = matrix
+    public init(_ data: [T]) {
+        grid = data
+        rows = 1
+        columns = data.count
     }
-    public init(_ data: [[Double]]) {
-        var matrix = Matrix(rows: data.count, columns: data[0].count)
+    public init(_ data: [[T]]) {
+        var matrix = Matrix(rows: data.count, columns: data[0].count, initialValue: data[0][0])
         let no_columns = data[0].count
         for (i, row) in enumerate(data) {
             assert(no_columns == row.count, "Each row must be of the same length")
@@ -44,7 +61,7 @@ public struct Matrix: Equatable {
     func indexIsValidForRow(row: Int, column: Int) -> Bool {
         return row >= 0 && row < rows && column >= 0 && column < columns
     }
-    public subscript(row: Int) -> Double {
+    public subscript(row: Int) -> T {
         get {
             // assert
             return grid[row]
@@ -53,7 +70,7 @@ public struct Matrix: Equatable {
             grid[row] = newValue
         }
     }
-    public subscript(row: Int, column: Int) -> Double {
+    public subscript(row: Int, column: Int) -> T {
         get {
             assert(indexIsValidForRow(row, column: column), "Index out of range")
             return grid[(row * columns) + column]
@@ -70,7 +87,7 @@ public struct Matrix: Equatable {
 extension Matrix: ArrayLiteralConvertible {
     public static func convertFromArrayLiteral(elements: Double...) -> Matrix {
         let data = elements as [Double]
-        var matrix = Matrix(data)
+        var matrix = Matrix<Double>(data)
         return matrix
     }
 /*    public static func convertFromArrayLiteral(elements: [Double]...) -> Matrix {
@@ -82,10 +99,9 @@ extension Matrix: ArrayLiteralConvertible {
 }
 
 
-
 // MARK: Operators
 
-public func == (left: Matrix, right: Matrix) -> Bool {
+public func == (left: Matrix<Int>, right: Matrix<Int>) -> Bool {
     if (left.grid == right.grid) {
         return true
     } else {
