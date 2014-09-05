@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E687F8ED19B8332A0075E3DF /* FloatingPointEqualityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E687F8EC19B8332A0075E3DF /* FloatingPointEqualityTests.swift */; };
 		E6C428F419B1F57A00CD5463 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C428F319B1F57A00CD5463 /* main.swift */; };
 		E6C428F619B1F57A00CD5463 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C428F519B1F57A00CD5463 /* AppDelegate.swift */; };
 		E6C428F819B1F57A00CD5463 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6C428F719B1F57A00CD5463 /* Images.xcassets */; };
@@ -28,7 +27,6 @@
 
 /* Begin PBXFileReference section */
 		E687F8EB19B7D95D0075E3DF /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
-		E687F8EC19B8332A0075E3DF /* FloatingPointEqualityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingPointEqualityTests.swift; sourceTree = "<group>"; };
 		E6C428EE19B1F57A00CD5463 /* SwiftMatrixExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftMatrixExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C428F219B1F57A00CD5463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6C428F319B1F57A00CD5463 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				E6C4290619B1F57B00CD5463 /* SwiftMatrixExampleTests.swift */,
-				E687F8EC19B8332A0075E3DF /* FloatingPointEqualityTests.swift */,
 				E6C4290419B1F57B00CD5463 /* Supporting Files */,
 			);
 			path = SwiftMatrixExampleTests;
@@ -226,7 +223,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E687F8ED19B8332A0075E3DF /* FloatingPointEqualityTests.swift in Sources */,
 				E6C4290719B1F57B00CD5463 /* SwiftMatrixExampleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

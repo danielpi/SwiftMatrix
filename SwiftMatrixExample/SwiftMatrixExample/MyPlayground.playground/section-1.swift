@@ -12,6 +12,11 @@ struct Mat<T: IntegerLiteralConvertible> {
 let a = Mat(grid: [1,2,3])
 let b = Mat(grid: [4.5,1.2])
 
-let c = DBL_EPSILON
+let c = FLT_EPSILON
+let f = 0.00001
+
+
+let d: Float = 1.4e-45
+let e: Float = 1.18e-38
 
 

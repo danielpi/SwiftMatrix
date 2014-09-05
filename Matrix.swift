@@ -94,24 +94,13 @@ extension Matrix: ArrayLiteralConvertible {
 
 }
 
-/*public static boolean nearlyEqual(float a, float b, float epsilon) {
-    final float absA = Math.abs(a);
-    final float absB = Math.abs(b);
-    final float diff = Math.abs(a - b);
-    
-    if (a == b) { // shortcut, handles infinities
-        return true;
-    } else if (a == 0 || b == 0 || diff < Float.MIN_NORMAL) {
-        // a or b is zero or both are extremely close to it
-        // relative error is less meaningful here
-        return diff < (epsilon * Float.MIN_NORMAL);
-    } else { // use relative error
-        return diff / (absA + absB) < epsilon;
-    }
+
+// Equality for Doubles
+extension Double {
+    static var minNormal: Double { return 2.2250738585072014e-308 }
+    static var min: Double { return 4.9406564584124654e-324 }
+    static var max: Double { return 1.7976931348623157e308 }
 }
-*/
-
-
 
 public func nearlyEqual(a: Double, b: Double, epsilon: Double) -> Bool {
     let absA = abs(a)
@@ -120,39 +109,25 @@ public func nearlyEqual(a: Double, b: Double, epsilon: Double) -> Bool {
     
     if (a == b) {
         return true
-    //} else if (a == 0 || b == 0 || diff < Double.min) {
-        //return diff < (epsilon * Double.)
+    } else if (a == 0 || b == 0 || diff < Double.minNormal) {
+        return diff < (epsilon * Double.minNormal)
     } else {
         return (diff / (absA + absB)) < epsilon
     }
 }
 
 public func nearlyEqual(a: Double, b: Double) -> Bool {
-    return nearlyEqual(a, b, DBL_EPSILON)
-}
-
-public func nearlyEqual(a: Float, b: Float, epsilon: Float) -> Bool {
-    let absA = abs(a)
-    let absB = abs(b)
-    let diff = abs(a - b)
-    
-    if (a == b) {
-        return true
-        //} else if (a == 0 || b == 0 || diff < Double.min) {
-        //return diff < (epsilon * Double.)
-    } else {
-        return (diff / (absA + absB)) < epsilon
-    }
-}
-
-public func nearlyEqual(a: Float, b: Float) -> Bool {
-    return nearlyEqual(a, b, FLT_EPSILON)
+    return nearlyEqual(a, b, 0.00000000000001)
 }
 
 
 // MARK: Operators
 public func == (left: Matrix, right: Matrix) -> Bool {
-    return (left.grid == right.grid)
+    var result: Bool = true
+    for (i, value) in enumerate(left.grid) {
+        result = (result && nearlyEqual(value, right.grid[i]))
+    }
+    return result
 }
 
 public func + (left: Matrix, right: Matrix) -> Matrix {
