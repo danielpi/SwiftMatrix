@@ -93,10 +93,28 @@ class SwiftMatrixExampleTests: XCTestCase {
         XCTAssert(a.size.cols == 3, "a should only have three columns")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
+    func testTranspose() {
+        let a = Matrix([[1,2,3],[4,5,6]])
+        XCTAssertEqual(a.transpose(), Matrix([[1,4],[2,5],[3,6]]), "Transpose of a 3x2 matrix")
+        XCTAssertEqual(a.T, Matrix([[1,4],[2,5],[3,6]]), "Transpose of a 3x2 matrix")
+        XCTAssertEqual(a⊺, Matrix([[1,4],[2,5],[3,6]]), "Transpose of a 3x2 matrix")
+        
+    }
+    
+    func testPerformanceOfCreation() {
         self.measureBlock() {
             // Put the code you want to measure the time of here.
+            let a = Matrix(rows: 1000, cols: 10)
+        }
+    }
+    
+    func testPerformanceOfTranspose() {
+        // This is an example of a performance test case.
+        
+        self.measureBlock() {
+            // Put the code you want to measure the time of here.
+            let a = Matrix(rows: 1000, cols: 10)
+            a.T
         }
     }
     

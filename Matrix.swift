@@ -31,6 +31,11 @@ public struct Matrix: Equatable {
             return (rows, cols)
         }
     }
+    public var T: Matrix {
+        get {
+            return self.transpose()
+        }
+    }
     
     public init(rows: Int, cols: Int) {
         self.rows = rows
@@ -77,6 +82,11 @@ public struct Matrix: Equatable {
         }
     }
     
+    public func transpose() -> Matrix {
+        var newMatrix = Matrix(rows: cols, cols: rows)
+        vDSP_mtransD(grid, 1, &newMatrix.grid, 1, vDSP_Length(cols), vDSP_Length(rows))
+        return newMatrix
+    }
 }
 
 // MARK: Literal
@@ -161,6 +171,17 @@ public func * (left: Double, right:Matrix) -> Matrix {
     }
     return result
 }
+
+// What to use for a transpose operator?
+// Matlab and Julia use ' (But swift won't let me use that)
+// Numpy uses .T (Two characters for such a common task)
+// Not allowed but would be cool: ᵀ
+// Allowed but not standared: † ′ ‵ ⊺ τ
+postfix operator ⊺ {}
+public postfix func ⊺ (matrix: Matrix) -> Matrix {
+    return matrix.transpose()
+}
+
 
 
 
