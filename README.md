@@ -35,8 +35,11 @@ Some experiments implementing a Matrix data type in Swift
 - Optimise
 - Benchmark
 
+
 ## Design Decisions
+
 ### Matrix Creation
+#### Literal
 Matlab            | Julia              | Numpy                        | R         
 ----------------- | ------------------ | ---------------------------- | ------------- 
 A = [1,2,3;4,5,6] | A = [1 2 3; 4 5 6] | a = array([[1,2,3],[4,5,6]]) | A = matrix(0.0,nrow=2,ncol=3) 
@@ -48,6 +51,32 @@ SwiftMatrix:
 	let A: Matrix = [[1,2,3],[4,5,6]]
 	
 Matlab and Julia only require 17 keystrokes for input their matrices. SwiftMatrix requires 33 characters. I could drop down to 26 by removing the type specifier from the second option however input will be inferred as an array of arrays of Ints. I also don't have any means of specifying the type of the elements of the Matrix at present.
+
+#### Convenience
+Matlab                 | Julia                 | Numpy                        | R         
+---------------------- | --------------------- | ---------------------------- | ------------- 
+rand(12,4)             | rand(12,4), uniform   | |
+randn(12,4)            | randn(12,4), Gaussian | |
+zeros(12,4)            |					   | zeros((3,5),Float) |
+ones(12,4)             |                       | ones((3,5),Float)
+eye(5)                 | eye(5)                | identity(3) |
+eye(12,4)              |
+linspace(1.2,4.7,100)  | linspace(1.2,4.7,100) | |
+diag(x)                | diagm(x)              | diag((4,5,6)) |
+
+The above convenience initialisers are basically used as literals. They need to be very short so that they can be used inline in calculations. 
+
+SwiftMatrix:
+
+	Let A = Matrix(rows:3, cols:5, repeatedValue:1.0)
+	Let B = Matrix(rows:3, cols:5, repeatedValue:0.0)
+	let C = ones(3,5)               // Not very Swift like, but minimal keystrokes
+	let D = Matrix(r:3, c:5, v:1.0)
+	let E = Matrix(3,5,1.0)			// Not very clear but allows type of elements to be explicitly set in a short hand fashion
+	let F = M(3,5,1.0)				// A bit rude maybe, very short though.
+	let G = Mat(size:(3,5), val:1.0)
+	let F = Mat.ones(3,5)
+	
 
 ### Display
 
@@ -103,7 +132,7 @@ Possible SwiftMatrix outputs
 
 Matlab      | Julia         | Numpy         | R         
 ----------- | ------------- | ------------- | ------------- 
-A'     		| A'			| A.T			| T(A)
+A'     		| A'			| A.T			| t(A)
 transpose(A)|   			| A.transpose() | 
 
 SwiftMatrix:
@@ -122,11 +151,13 @@ Much as I would like to I can't use A' as it is not allowed as an operator chara
 	
 	Allowed but not great
 	A†	
-	A′ 
-	A‵ 
+	A′ // This would be confusing because it looks like a ' but isn't
+	A‵
+	A⊺ 
 	
 	A.t
 	A.T
+	
 	
 I think I prefer A.T
 

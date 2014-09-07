@@ -42,6 +42,12 @@ class SwiftMatrixExampleTests: XCTestCase {
     func testMatrixCreation2() {
         let matrix1 = Matrix([[1,2,3], [5,6,7]])
         //let matrix2: Matrix = [[1,2,3], [5,6,7]]
+        XCTAssertEqual(matrix1, Matrix([[1,2,3], [5,6,7]]), "2x3 matrices")
+    }
+    
+    func testOnesCreation() {
+        let a = Matrix.ones(2,3)
+        XCTAssertEqual(a, Matrix([[1,1,1],[1,1,1]]), "Testing an array full of 1.0's")
     }
     
     func testAddition() {

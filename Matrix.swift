@@ -37,10 +37,13 @@ public struct Matrix: Equatable {
         }
     }
     
-    public init(rows: Int, cols: Int) {
+    public init(rows: Int, cols: Int, repeatedValue: Double) {
         self.rows = rows
         self.cols = cols
-        grid = Array(count: rows * cols, repeatedValue: 0.0)
+        grid = Array(count: rows * cols, repeatedValue: repeatedValue)
+    }
+    public init(rows: Int, cols: Int) {
+        self.init(rows: rows, cols: cols, repeatedValue: 0.0)
     }
     public init(_ data: [Double]) {
         grid = data
@@ -58,6 +61,10 @@ public struct Matrix: Equatable {
         }
         self = matrix
     }
+    public static func ones(rows: Int, _ cols: Int) -> Matrix {
+        return Matrix(rows: rows, cols: cols, repeatedValue: 1.0)
+    }
+    
     //public init(_ data: [[[Double]]]) { // Three dimensional array
     func indexIsValidForRow(row: Int, column: Int) -> Bool {
         return row >= 0 && row < rows && column >= 0 && column < cols
