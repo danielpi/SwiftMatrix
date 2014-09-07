@@ -61,9 +61,6 @@ public struct Matrix: Equatable {
         }
         self = matrix
     }
-    public static func ones(rows: Int, _ cols: Int) -> Matrix {
-        return Matrix(rows: rows, cols: cols, repeatedValue: 1.0)
-    }
     
     //public init(_ data: [[[Double]]]) { // Three dimensional array
     func indexIsValidForRow(row: Int, column: Int) -> Bool {
@@ -135,6 +132,24 @@ public func nearlyEqual(a: Double, b: Double, epsilon: Double) -> Bool {
 
 public func nearlyEqual(a: Double, b: Double) -> Bool {
     return nearlyEqual(a, b, 0.00000000000001)
+}
+
+
+// MARK: Factory methods
+public func ones(rows: Int, cols: Int) -> Matrix {
+    return Matrix(rows: rows, cols: cols, repeatedValue: 1.0)
+}
+
+public func zeros(rows: Int, cols: Int) -> Matrix {
+    return Matrix(rows: rows, cols: cols, repeatedValue: 0.0)
+}
+
+public func eye(rows: Int) -> Matrix {
+    var newMatrix = Matrix(rows: rows, cols: rows, repeatedValue: 0.0)
+    for var index = 0; index < rows; ++index {
+        newMatrix[index,index] = 1.0
+    }
+    return newMatrix
 }
 
 

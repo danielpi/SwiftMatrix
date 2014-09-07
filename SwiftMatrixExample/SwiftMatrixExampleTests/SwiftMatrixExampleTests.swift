@@ -46,8 +46,18 @@ class SwiftMatrixExampleTests: XCTestCase {
     }
     
     func testOnesCreation() {
-        let a = Matrix.ones(2,3)
+        let a = ones(2,3)
         XCTAssertEqual(a, Matrix([[1,1,1],[1,1,1]]), "Testing an array full of 1.0's")
+    }
+    
+    func testZerosCreation() {
+        let a = zeros(1,4)
+        XCTAssertEqual(a, Matrix([0,0,0,0]), "Testing an array of zeros")
+    }
+    
+    func testEyeCreation() {
+        let a = eye(3)
+        XCTAssertEqual(a, Matrix([[1,0,0],[0,1,0],[0,0,1]]), "Testing an identity matrix")
     }
     
     func testAddition() {

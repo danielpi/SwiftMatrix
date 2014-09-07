@@ -28,6 +28,9 @@ Some experiments implementing a Matrix data type in Swift
 - How to slice an entire row or column? Matlab uses a(:,2) to get the second column of data. 
 - I've had a pretty good go at implementing a matrix class with generics. It hasn't worked out very well though. I think it is more important for the library to specialise on each of the most common data types. The underlying Accelerate library does this so I don't think I can take advantage of it without also being specific. It would be good if this library could use operator overloading though so that you can not have to worry about your data types (as much as possible).
 - How to handle equality of floating point numbers in Swift.
+- I noticed that there are some commands in vDSP that combine several steps in a single command (Transpose and Multiply). It could be interesting having a range of operators that expose this functionality. So if we have * an ' for multiply and transpose then we could have A'*B, A*'B and A'*'B to group the multiply and transposes into a single function call. 
+
+
 
 ## Stages
 - Write it for Humans to be able to read
