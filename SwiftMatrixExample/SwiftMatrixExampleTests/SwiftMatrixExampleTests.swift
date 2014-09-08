@@ -60,6 +60,13 @@ class SwiftMatrixExampleTests: XCTestCase {
         XCTAssertEqual(a, Matrix([[1,0,0],[0,1,0],[0,0,1]]), "Testing an identity matrix")
     }
     
+    func testRandCreation() {
+        let a = rand(2,3)
+        XCTAssertEqual(a.rows, 2, "Just checking that a correctly sized matrix was created")
+        XCTAssertEqual(a.cols, 3, "Just checking that a correctly sized matrix was created")
+        // TODO: Test random values properly
+    }
+    
     func testAddition() {
         let a = Matrix([1,2,3])
         let b = Matrix([4,5,6])

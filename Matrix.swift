@@ -24,8 +24,8 @@ extension Double: SummableMultipliable {}
 
 public struct Matrix: Equatable {
     var grid: [Double]
-    let rows: Int
-    let cols: Int
+    public let rows: Int
+    public let cols: Int
     public var size: (rows: Int, cols: Int) {
         get {
             return (rows, cols)
@@ -43,6 +43,9 @@ public struct Matrix: Equatable {
         grid = Array(count: rows * cols, repeatedValue: repeatedValue)
     }
     public init(rows: Int, cols: Int) {
+        self.init(rows: rows, cols: cols, repeatedValue: 0.0)
+    }
+    public init(_ rows: Int,_ cols: Int) {
         self.init(rows: rows, cols: cols, repeatedValue: 0.0)
     }
     public init(_ data: [Double]) {
@@ -152,6 +155,28 @@ public func eye(rows: Int) -> Matrix {
     return newMatrix
 }
 
+public func rand(rows: Int, cols: Int) -> Matrix {
+    var x = Matrix(rows, cols)
+    var distributionOption:__CLPK_integer = 1 // Uniform 0 to 1
+    var seed = [__CLPK_integer(arc4random_uniform(4095)), __CLPK_integer(arc4random_uniform(4095)), __CLPK_integer(arc4random_uniform(4095)), __CLPK_integer((arc4random_uniform(2000) * 2) + 1)]
+    var count:__CLPK_integer  = __CLPK_integer(rows * cols)
+    dlarnv_(&distributionOption, &seed, &count, UnsafeMutablePointer<Double>(x.grid))
+    return x
+}
+
+public func randn(rows: Int, cols: Int) -> Matrix {
+    var x = zeros(rows, cols)
+    var i:__CLPK_integer = 3 // Normal 0 to 1
+    var seed:Array<__CLPK_integer> = [__CLPK_integer(42), 42, 2, 29]
+    var nn:__CLPK_integer  = __CLPK_integer(rows * cols)
+    dlarnv_(&i, &seed, &nn, UnsafeMutablePointer<Double>(x.grid))
+    return x
+}
+
+public func randn(rows: Int, cols: Int, mean: Double, sigma: Double) -> Matrix {
+    return (randn(rows, cols) * sigma) + mean
+}
+
 
 // MARK: Operators
 public func == (left: Matrix, right: Matrix) -> Bool {
@@ -166,6 +191,20 @@ public func + (left: Matrix, right: Matrix) -> Matrix {
     assert( (left.rows == right.rows) && (left.cols == right.cols) )
     var result = Matrix(rows: left.rows, cols: left.cols)
     vDSP_vaddD( left.grid, 1, right.grid, 1, &result.grid, 1, vDSP_Length(left.grid.count) )
+    return result
+}
+public func + (left: Matrix, right: Double) -> Matrix {
+    var result = Matrix(left.rows, left.cols)
+    for (i, value) in enumerate(left.grid) {
+        result[i] = value + right
+    }
+    return result
+}
+public func + (left: Double, right: Matrix) -> Matrix {
+    var result = Matrix(right.rows, right.cols)
+    for (i, value) in enumerate(right.grid) {
+        result[i] = value + left
+    }
     return result
 }
 
