@@ -66,6 +66,18 @@ class SwiftMatrixExampleTests: XCTestCase {
         XCTAssertEqual(a.cols, 3, "Just checking that a correctly sized matrix was created")
         // TODO: Test random values properly
     }
+    func testRandnCreation() {
+        let a = randn(2,3)
+        XCTAssertEqual(a.rows, 2, "Just checking that a correctly sized matrix was created")
+        XCTAssertEqual(a.cols, 3, "Just checking that a correctly sized matrix was created")
+        // TODO: Test random values properly
+    }
+    func testRandnMeanCreation() {
+        let a = randn(2, 3, mean: 10, sigma: 1)
+        XCTAssertEqual(a.rows, 2, "Just checking that a correctly sized matrix was created")
+        XCTAssertEqual(a.cols, 3, "Just checking that a correctly sized matrix was created")
+        // TODO: Test random values properly
+    }
     
     func testAddition() {
         let a = Matrix([1,2,3])
@@ -80,6 +92,13 @@ class SwiftMatrixExampleTests: XCTestCase {
         let c = a + b
         
         XCTAssertEqual(c, Matrix([[5,7,9],[11,13,15]]), "c should equal [5,7,9]")
+    }
+    func testAddition3() {
+        let a = Matrix([[1,2,3],[4,5,6]])
+        let b = a + 5
+        let c = 5 + a
+        XCTAssertEqual(b, Matrix([[6,7,8],[9,10,11]]), "Adding a Double")
+        XCTAssertEqual(c, Matrix([[6,7,8],[9,10,11]]), "Adding a Double")
     }
     func testSubtraction() {
         let a = Matrix([1,2,3])

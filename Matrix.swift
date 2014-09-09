@@ -166,14 +166,14 @@ public func rand(rows: Int, cols: Int) -> Matrix {
 
 public func randn(rows: Int, cols: Int) -> Matrix {
     var x = zeros(rows, cols)
-    var i:__CLPK_integer = 3 // Normal 0 to 1
-    var seed:Array<__CLPK_integer> = [__CLPK_integer(42), 42, 2, 29]
-    var nn:__CLPK_integer  = __CLPK_integer(rows * cols)
-    dlarnv_(&i, &seed, &nn, UnsafeMutablePointer<Double>(x.grid))
+    var distributionOption:__CLPK_integer = 3 // Normal 0 to 1
+    var seed = [__CLPK_integer(arc4random_uniform(4095)), __CLPK_integer(arc4random_uniform(4095)), __CLPK_integer(arc4random_uniform(4095)), __CLPK_integer((arc4random_uniform(2000) * 2) + 1)]
+    var count:__CLPK_integer  = __CLPK_integer(rows * cols)
+    dlarnv_(&distributionOption, &seed, &count, UnsafeMutablePointer<Double>(x.grid))
     return x
 }
 
-public func randn(rows: Int, cols: Int, mean: Double, sigma: Double) -> Matrix {
+public func randn(rows: Int, cols: Int, #mean: Double, #sigma: Double) -> Matrix {
     return (randn(rows, cols) * sigma) + mean
 }
 
