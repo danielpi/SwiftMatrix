@@ -149,6 +149,8 @@ class SwiftMatrixExampleTests: XCTestCase {
         println(a)
         let b = randn(9, 5)
         println(b)
+        let c = randn(20, 20, mean: 10, sigma: 10)
+        println(c)
     }
     
     func testPerformanceOfCreation() {

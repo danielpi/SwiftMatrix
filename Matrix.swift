@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Electronic Innovations. All rights reserved.
 //
 
+import Cocoa
 import Foundation
 import Accelerate
 
@@ -38,10 +39,15 @@ public struct Matrix: Equatable, Printable {
     }
     public var description: String {
         var textualRepresentation = "\t\(rows)x\(cols) Double Matrix\n\n"
+            var formatter = NSNumberFormatter()
+            formatter.numberStyle = .DecimalStyle
+            
+            
             for var i = 0; i < rows; ++i {
                 textualRepresentation += ""
                 for var j = 0; j < cols; ++j {
-                    let valueString: String = NSString(format:"%.2f", self[i,j])
+                    let valueString: String = NSString(format:"% 1.2f", self[i,j])
+                    //let valueString: String = formatter.stringFromNumber(self[i,j])
                     textualRepresentation += "\t\(valueString)"
                 }
                 textualRepresentation += "\n"
