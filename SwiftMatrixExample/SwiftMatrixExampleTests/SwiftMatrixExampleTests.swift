@@ -46,8 +46,10 @@ class SwiftMatrixExampleTests: XCTestCase {
     }
     
     func testOnesCreation() {
-        let a = ones(2,3)
-        XCTAssertEqual(a, Matrix([[1,1,1],[1,1,1]]), "Testing an array full of 1.0's")
+        let a = Matrix(rows: 3, cols: 3, repeatedValue: 1.0)
+        let b = ones(3,3)
+        XCTAssertEqual(a, b, "Testing the two methods of making a matrix full of 1.0")
+        XCTAssertEqual(a, Matrix([[1,1,1],[1,1,1],[1,1,1]]), "Making sure that there are actually 1.0's in there")
     }
     
     func testZerosCreation() {
@@ -140,7 +142,13 @@ class SwiftMatrixExampleTests: XCTestCase {
         XCTAssertEqual(a.transpose(), Matrix([[1,4],[2,5],[3,6]]), "Transpose of a 3x2 matrix")
         XCTAssertEqual(a.T, Matrix([[1,4],[2,5],[3,6]]), "Transpose of a 3x2 matrix")
         XCTAssertEqual(a⊺, Matrix([[1,4],[2,5],[3,6]]), "Transpose of a 3x2 matrix")
-        
+    }
+    
+    func testPrintOut() {
+        let a = Matrix([[1,2,3],[4,5,6]])
+        println(a)
+        let b = randn(9, 5)
+        println(b)
     }
     
     func testPerformanceOfCreation() {

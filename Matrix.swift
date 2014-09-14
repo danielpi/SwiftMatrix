@@ -22,7 +22,7 @@ extension Int: SummableMultipliable {}
 extension Float: SummableMultipliable {}
 extension Double: SummableMultipliable {}
 
-public struct Matrix: Equatable {
+public struct Matrix: Equatable, Printable {
     var grid: [Double]
     public let rows: Int
     public let cols: Int
@@ -35,6 +35,19 @@ public struct Matrix: Equatable {
         get {
             return self.transpose()
         }
+    }
+    public var description: String {
+        var textualRepresentation = "\t\(rows)x\(cols) Double Matrix\n\n"
+            for var i = 0; i < rows; ++i {
+                textualRepresentation += ""
+                for var j = 0; j < cols; ++j {
+                    let valueString: String = NSString(format:"%.2f", self[i,j])
+                    textualRepresentation += "\t\(valueString)"
+                }
+                textualRepresentation += "\n"
+            }
+            textualRepresentation += ""
+        return textualRepresentation
     }
     
     public init(rows: Int, cols: Int, repeatedValue: Double) {
