@@ -15,6 +15,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
         // Insert code here to initialize your application
+        
+        /*
+        data = load('ex1data1.txt');       % read comma separated data
+        X = data(:, 1); y = data(:, 2);
+        m = length(y);                     % number of training examples
+        */
+        //NSURL *baseURL = [NSURL URLWithString:@""];
+        let dataURL = NSURL(fileURLWithPath:"/Users/danielpi/repos/SwiftMatrix/ex1data1.txt")
+        let text = String.stringWithContentsOfURL(dataURL, encoding: NSUTF8StringEncoding, error: nil)
+        
+        var data: [[Double]] = []
+        for line in text!.componentsSeparatedByString("\n") {
+            var row: [Double] = []
+            for value: NSString in line.componentsSeparatedByString(",") {
+                row.append(value.doubleValue)
+            }
+            data.append(row)
+        }
+        let matrix = Matrix(data)
+        println(matrix)
     }
 
     func applicationWillTerminate(aNotification: NSNotification?) {

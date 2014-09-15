@@ -174,7 +174,16 @@ A * B    	| A * B		    | matrixmultiply(A,B) | A %*% B
             |  		    	| inner(A,B)          | 
             |   			| outer(A,B)          | 
 
+### Loading Data from a csv file
+Matlab      | Julia         | Numpy               | R         
+----------- | ------------- | ------------------- | ------------- 
+data = load('ex1data1.txt');    	| 		    |  | 
+            |  		    	|           | 
+            |   			|           | 
 
+Looking at the Matlab example for now. Things to note
+- Matlab has the concept of a working directory. This allows for the filename to be the only identifier (assuming that you are in the correct working directory).
+- Again Matlab uses a global function, load()
 
 
 

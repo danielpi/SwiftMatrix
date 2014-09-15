@@ -107,6 +107,22 @@ public struct Matrix: Equatable, Printable {
             grid[(row * cols) + column] = newValue
         }
     }
+    /*
+    // This is from swix. Needs asarray which also needs arange. I don't understand how they work yet.
+    subscript(r: Range<Int>, c: Range<Int>) -> matrix {
+        // x[0..<2, 0..<2]
+        get {
+            var rr = asarray(r)
+            var cc = asarray(c)
+            return self[rr, cc]
+        }
+        set {
+            var rr = asarray(r)
+            var cc = asarray(c)
+            self[rr, cc] = newValue
+        }
+    }
+    */
     
     public func transpose() -> Matrix {
         var newMatrix = Matrix(rows: cols, cols: rows)
