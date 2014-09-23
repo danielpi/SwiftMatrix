@@ -185,5 +185,24 @@ Looking at the Matlab example for now. Things to note
 - Matlab has the concept of a working directory. This allows for the filename to be the only identifier (assuming that you are in the correct working directory).
 - Again Matlab uses a global function, load()
 
+### Accessing slices of an array
+Matlab      | Julia         | Numpy               | R         
+----------- | ------------- | ------------------- | ------------- 
+x(2:12) the 2nd to the 12th elements of x | | |x(2:end) the 2nd to the last elements of x | | |x(1:3:end) every third element of x, from 1st to the last | | |x(:) all the elements of x | | |A(5,:) the row vector of every element in the 5th row of A | | |
+A(5,1:3) the row vector of the first 3 elements in the 5th row of A | | |
+A(:,2) the column vector of every element in the 2nd column of A | | |
+diag(A) column vector of the diagonal elements of A   	|  |  | 
 
+SwiftMatrix:
 
+	let a = Matrix([[1,2,3,4,5,6]])
+	a[2...4]
+		
+		3.00	4.00	5.00	6.00
+	
+	let b = Matrix([[1,2,3],[4,5,6]])
+	b[1,0...a.count]
+	
+		4.00	5.00	6.00
+		
+		

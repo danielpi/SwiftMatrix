@@ -22,6 +22,8 @@ public protocol SummableMultipliable: Equatable {
 extension Int: SummableMultipliable {}
 extension Float: SummableMultipliable {}
 extension Double: SummableMultipliable {}
+// SignedNumberType is a good general purpose number type as it includes Int Float and Double
+// http://nshipster.com/swift-comparison-protocols/
 
 public struct Matrix: Equatable, Printable {
     var grid: [Double]
@@ -105,6 +107,18 @@ public struct Matrix: Equatable, Printable {
         set {
             assert(indexIsValidForRow(row, column: column), "Index out of range")
             grid[(row * cols) + column] = newValue
+        }
+    }
+    public subscript(rows: [Int], cols: [Int]) -> Matrix {
+        get {
+            var matrix = Matrix(rows.count, cols.count)
+            for (i, r) in enumerate(rows) {
+                for (j, c) in enumerate(cols) {
+                    assert(indexIsValidForRow(r, column: c), "Index out of range")
+                    matrix[i,j] = self[r,c]
+                }
+            }
+            return matrix
         }
     }
     /*
