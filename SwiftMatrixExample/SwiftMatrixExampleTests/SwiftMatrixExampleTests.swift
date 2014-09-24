@@ -87,6 +87,7 @@ class SwiftMatrixExampleTests: XCTestCase {
         XCTAssertEqual(a[9], 9.0, "Single Int subscript also access a single value")
         XCTAssertEqual(a[[2,3],[0,3]], Matrix([[8,11],[12,15]]), "Array subscripts pick out specific elements and return another matrix")
         // How do I select an entire row or column?
+        XCTAssertEqual(a[0...2, 0...3], Matrix([[0,1,2,3],[4,5,6,7],[8,9,10,11]]), "Using ranges for slicing")
     }
     func testAddition() {
         let a = Matrix([1,2,3])

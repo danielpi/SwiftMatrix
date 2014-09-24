@@ -121,6 +121,18 @@ public struct Matrix: Equatable, Printable {
             return matrix
         }
     }
+    public subscript(rows: Range<Int>, cols: Range<Int>) -> Matrix {
+        get {
+            var matrix = Matrix(rows.endIndex - rows.startIndex, cols.endIndex - cols.startIndex)
+            for (i, r) in enumerate(rows) {
+                for (j, c) in enumerate(cols) {
+                    assert(indexIsValidForRow(r, column: c), "Index out of range")
+                    matrix[i,j] = self[r,c]
+                }
+            }
+            return matrix
+        }
+    }
     /*
     // This is from swix. Needs asarray which also needs arange. I don't understand how they work yet.
     subscript(r: Range<Int>, c: Range<Int>) -> matrix {
