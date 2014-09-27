@@ -109,7 +109,7 @@ public struct Matrix: Equatable, Printable {
             grid[(row * cols) + column] = newValue
         }
     }
-    public subscript(rows: [Int], cols: [Int]) -> Matrix {
+    public  subscript(rows: [Int], cols: [Int]) -> Matrix {
         get {
             var matrix = Matrix(rows.count, cols.count)
             for (i, r) in enumerate(rows) {
@@ -119,6 +119,14 @@ public struct Matrix: Equatable, Printable {
                 }
             }
             return matrix
+        }
+        set {
+            for (i, r) in enumerate(rows) {
+                for (j, c) in enumerate(cols) {
+                    assert(indexIsValidForRow(r, column: c), "Index out of range")
+                    grid[(i * self.cols) + j] = newValue[r,c]
+                }
+            }
         }
     }
     public subscript(rows: Range<Int>, cols: Range<Int>) -> Matrix {

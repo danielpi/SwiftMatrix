@@ -89,6 +89,18 @@ class SwiftMatrixExampleTests: XCTestCase {
         // How do I select an entire row or column?
         XCTAssertEqual(a[0...2, 0...3], Matrix([[0,1,2,3],[4,5,6,7],[8,9,10,11]]), "Using ranges for slicing")
     }
+    
+    func testSubscriptionSync() {
+        let a: Matrix = Matrix([[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]])
+        let b = Matrix([[4.0,3],[6,5]])
+        println(a)
+        println(b)
+        
+        //a[[0,1],[2,3]] = Matrix([[4.0,3],[6,5]])
+        
+        XCTAssertEqual(a, Matrix([[0,1,3,3],[4,5,6,5],[8,9,10,11],[12,13,14,15]]), "Testing that we can set values via subscription")
+    }
+    
     func testAddition() {
         let a = Matrix([1,2,3])
         let b = Matrix([4,5,6])
