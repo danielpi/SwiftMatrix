@@ -23,12 +23,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         */
         //NSURL *baseURL = [NSURL URLWithString:@""];
         let dataURL = NSURL(fileURLWithPath:"/Users/danielpi/repos/SwiftMatrix/ex1data1.txt")
-        let text = String.stringWithContentsOfURL(dataURL, encoding: NSUTF8StringEncoding, error: nil)
+        //let text = NSString.stringWithContentsOfURL(dataURL!, encoding: NSUTF8StringEncoding, error: nil)
+        let text = NSString(contentsOfURL: dataURL!, encoding: NSUTF8StringEncoding, error: nil)
         
         var data: [[Double]] = []
         for line in text!.componentsSeparatedByString("\n") {
             var row: [Double] = []
-            for value: NSString in line.componentsSeparatedByString(",") {
+            for value in line.componentsSeparatedByString(",") {
                 row.append(value.doubleValue)
             }
             data.append(row)

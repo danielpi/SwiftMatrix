@@ -48,7 +48,7 @@ public struct Matrix: Equatable, Printable {
             for var i = 0; i < rows; ++i {
                 textualRepresentation += ""
                 for var j = 0; j < cols; ++j {
-                    let valueString: String = NSString(format:"% 1.2f", self[i,j])
+                    let valueString: String = NSString(format:"% 1.2f", self[i,j]) as String
                     //let valueString: String = formatter.stringFromNumber(self[i,j])
                     textualRepresentation += "\t\(valueString)"
                 }
@@ -167,12 +167,20 @@ public struct Matrix: Equatable, Printable {
 
 // MARK: Literal
 extension Matrix: ArrayLiteralConvertible {
-    public static func convertFromArrayLiteral(elements: Double...) -> Matrix {
+    //typealias Element = Double
+    
+    public init(arrayLiteral elements: Double...) {
+        let data = elements
+        var matrix = Matrix(data)
+        self = matrix
+    }
+    
+    /*public static func convertFromArrayLiteral(elements: Double...) -> Matrix {
         let data = elements as [Double]
         var matrix = Matrix(data)
         return matrix
     }
-/*    public static func convertFromArrayLiteral(elements: [Double]...) -> Matrix {
+    public static func convertFromArrayLiteral(elements: [Double]...) -> Matrix {
         let data = elements as [[Double]]
         var matrix = Matrix(data)
         return matrix
